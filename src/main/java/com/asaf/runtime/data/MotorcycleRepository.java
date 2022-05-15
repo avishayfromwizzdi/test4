@@ -1,8 +1,7 @@
 package com.asaf.runtime.data;
 
-import com.asaf.runtime.model.Person;
-import com.asaf.runtime.model.Person_;
-import com.asaf.runtime.request.PersonFilter;
+import com.asaf.runtime.model.Motorcycle;
+import com.asaf.runtime.request.MotorcycleFilter;
 import com.asaf.runtime.security.UserSecurityContext;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,71 +12,65 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import javax.persistence.metamodel.SingularAttribute;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
-public class PersonRepository {
+public class MotorcycleRepository {
   @PersistenceContext private EntityManager em;
 
-  /**
-   * @param personFilter Object Used to List Person
-   * @param securityContext
-   * @return List of Person
-   */
-  public List<Person> listAllPersons(
-      PersonFilter personFilter, UserSecurityContext securityContext) {
-    CriteriaBuilder cb = em.getCriteriaBuilder();
-    CriteriaQuery<Person> q = cb.createQuery(Person.class);
-    Root<Person> r = q.from(Person.class);
-    List<Predicate> preds = new ArrayList<>();
-    addPersonPredicate(personFilter, cb, q, r, preds, securityContext);
-    q.select(r).where(preds.toArray(new Predicate[0]));
-    TypedQuery<Person> query = em.createQuery(q);
+  @Autowired private VehicleRepository vehicleRepository;
 
-    if (personFilter.getPageSize() != null
-        && personFilter.getCurrentPage() != null
-        && personFilter.getPageSize() > 0
-        && personFilter.getCurrentPage() > -1) {
+  /**
+   * @param motorcycleFilter Object Used to List Motorcycle
+   * @param securityContext
+   * @return List of Motorcycle
+   */
+  public List<Motorcycle> listAllMotorcycles(
+      MotorcycleFilter motorcycleFilter, UserSecurityContext securityContext) {
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+    CriteriaQuery<Motorcycle> q = cb.createQuery(Motorcycle.class);
+    Root<Motorcycle> r = q.from(Motorcycle.class);
+    List<Predicate> preds = new ArrayList<>();
+    addMotorcyclePredicate(motorcycleFilter, cb, q, r, preds, securityContext);
+    q.select(r).where(preds.toArray(new Predicate[0]));
+    TypedQuery<Motorcycle> query = em.createQuery(q);
+
+    if (motorcycleFilter.getPageSize() != null
+        && motorcycleFilter.getCurrentPage() != null
+        && motorcycleFilter.getPageSize() > 0
+        && motorcycleFilter.getCurrentPage() > -1) {
       query
-          .setFirstResult(personFilter.getPageSize() * personFilter.getCurrentPage())
-          .setMaxResults(personFilter.getPageSize());
+          .setFirstResult(motorcycleFilter.getPageSize() * motorcycleFilter.getCurrentPage())
+          .setMaxResults(motorcycleFilter.getPageSize());
     }
 
     return query.getResultList();
   }
 
-  public <T extends Person> void addPersonPredicate(
-      PersonFilter personFilter,
+  public <T extends Motorcycle> void addMotorcyclePredicate(
+      MotorcycleFilter motorcycleFilter,
       CriteriaBuilder cb,
       CommonAbstractCriteria q,
       From<?, T> r,
       List<Predicate> preds,
       UserSecurityContext securityContext) {
 
-    if (personFilter.getId() != null && !personFilter.getId().isEmpty()) {
-      preds.add(r.get(Person_.id).in(personFilter.getId()));
-    }
-
-    if (personFilter.getName() != null && !personFilter.getName().isEmpty()) {
-      preds.add(r.get(Person_.name).in(personFilter.getName()));
-    }
-
-    if (personFilter.getDescription() != null && !personFilter.getDescription().isEmpty()) {
-      preds.add(r.get(Person_.description).in(personFilter.getDescription()));
-    }
+    vehicleRepository.addVehiclePredicate(motorcycleFilter, cb, q, r, preds, securityContext);
   }
   /**
-   * @param personFilter Object Used to List Person
+   * @param motorcycleFilter Object Used to List Motorcycle
    * @param securityContext
-   * @return count of Person
+   * @return count of Motorcycle
    */
-  public Long countAllPersons(PersonFilter personFilter, UserSecurityContext securityContext) {
+  public Long countAllMotorcycles(
+      MotorcycleFilter motorcycleFilter, UserSecurityContext securityContext) {
     CriteriaBuilder cb = em.getCriteriaBuilder();
     CriteriaQuery<Long> q = cb.createQuery(Long.class);
-    Root<Person> r = q.from(Person.class);
+    Root<Motorcycle> r = q.from(Motorcycle.class);
     List<Predicate> preds = new ArrayList<>();
-    addPersonPredicate(personFilter, cb, q, r, preds, securityContext);
+    addMotorcyclePredicate(motorcycleFilter, cb, q, r, preds, securityContext);
     q.select(cb.count(r)).where(preds.toArray(new Predicate[0]));
     TypedQuery<Long> query = em.createQuery(q);
     return query.getSingleResult();

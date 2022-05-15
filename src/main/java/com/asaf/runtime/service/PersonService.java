@@ -56,6 +56,17 @@ public class PersonService {
   public boolean updatePersonNoMerge(Person person, PersonCreate personCreate) {
     boolean update = false;
 
+    if (personCreate.getName() != null && (!personCreate.getName().equals(person.getName()))) {
+      person.setName(personCreate.getName());
+      update = true;
+    }
+
+    if (personCreate.getDescription() != null
+        && (!personCreate.getDescription().equals(person.getDescription()))) {
+      person.setDescription(personCreate.getDescription());
+      update = true;
+    }
+
     return update;
   }
   /**

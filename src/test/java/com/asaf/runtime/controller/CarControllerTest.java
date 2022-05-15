@@ -1,11 +1,11 @@
 package com.asaf.runtime.controller;
 
 import com.asaf.runtime.AppInit;
-import com.asaf.runtime.model.Person;
+import com.asaf.runtime.model.Car;
+import com.asaf.runtime.request.CarCreate;
+import com.asaf.runtime.request.CarFilter;
+import com.asaf.runtime.request.CarUpdate;
 import com.asaf.runtime.request.LoginRequest;
-import com.asaf.runtime.request.PersonCreate;
-import com.asaf.runtime.request.PersonFilter;
-import com.asaf.runtime.request.PersonUpdate;
 import com.asaf.runtime.response.PaginationResponse;
 import java.util.Collections;
 import java.util.List;
@@ -34,9 +34,9 @@ import org.springframework.web.bind.annotation.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ActiveProfiles("test")
-public class PersonControllerTest {
+public class CarControllerTest {
 
-  private Person testPerson;
+  private Car testCar;
   @Autowired private TestRestTemplate restTemplate;
 
   @BeforeAll
@@ -62,59 +62,46 @@ public class PersonControllerTest {
 
   @Test
   @Order(1)
-  public void testPersonCreate() {
-    PersonCreate request = new PersonCreate();
+  public void testCarCreate() {
+    CarCreate request = new CarCreate();
 
-    request.setName("test-string");
-
-    request.setDescription("test-string");
-
-    ResponseEntity<Person> response =
-        this.restTemplate.postForEntity("/Person/createPerson", request, Person.class);
+    ResponseEntity<Car> response =
+        this.restTemplate.postForEntity("/Car/createCar", request, Car.class);
     Assertions.assertEquals(200, response.getStatusCodeValue());
-    testPerson = response.getBody();
-    assertPerson(request, testPerson);
+    testCar = response.getBody();
+    assertCar(request, testCar);
   }
 
   @Test
   @Order(2)
-  public void testListAllPersons() {
-    PersonFilter request = new PersonFilter();
-    ParameterizedTypeReference<PaginationResponse<Person>> t =
-        new ParameterizedTypeReference<>() {};
+  public void testListAllCars() {
+    CarFilter request = new CarFilter();
+    ParameterizedTypeReference<PaginationResponse<Car>> t = new ParameterizedTypeReference<>() {};
 
-    ResponseEntity<PaginationResponse<Person>> response =
+    ResponseEntity<PaginationResponse<Car>> response =
         this.restTemplate.exchange(
-            "/Person/getAllPersons", HttpMethod.POST, new HttpEntity<>(request), t);
+            "/Car/getAllCars", HttpMethod.POST, new HttpEntity<>(request), t);
     Assertions.assertEquals(200, response.getStatusCodeValue());
-    PaginationResponse<Person> body = response.getBody();
+    PaginationResponse<Car> body = response.getBody();
     Assertions.assertNotNull(body);
-    List<Person> Persons = body.getList();
-    Assertions.assertNotEquals(0, Persons.size());
-    Assertions.assertTrue(Persons.stream().anyMatch(f -> f.getId().equals(testPerson.getId())));
+    List<Car> Cars = body.getList();
+    Assertions.assertNotEquals(0, Cars.size());
+    Assertions.assertTrue(Cars.stream().anyMatch(f -> f.getId().equals(testCar.getId())));
   }
 
-  public void assertPerson(PersonCreate request, Person testPerson) {
-    Assertions.assertNotNull(testPerson);
-
-    if (request.getName() != null) {
-      Assertions.assertEquals(request.getName(), testPerson.getName());
-    }
-
-    if (request.getDescription() != null) {
-      Assertions.assertEquals(request.getDescription(), testPerson.getDescription());
-    }
+  public void assertCar(CarCreate request, Car testCar) {
+    Assertions.assertNotNull(testCar);
   }
 
   @Test
   @Order(3)
-  public void testPersonUpdate() {
-    PersonUpdate request = new PersonUpdate().setId(testPerson.getId());
-    ResponseEntity<Person> response =
+  public void testCarUpdate() {
+    CarUpdate request = new CarUpdate().setId(testCar.getId());
+    ResponseEntity<Car> response =
         this.restTemplate.exchange(
-            "/Person/updatePerson", HttpMethod.PUT, new HttpEntity<>(request), Person.class);
+            "/Car/updateCar", HttpMethod.PUT, new HttpEntity<>(request), Car.class);
     Assertions.assertEquals(200, response.getStatusCodeValue());
-    testPerson = response.getBody();
-    assertPerson(request, testPerson);
+    testCar = response.getBody();
+    assertCar(request, testCar);
   }
 }

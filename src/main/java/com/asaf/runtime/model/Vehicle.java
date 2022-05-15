@@ -5,16 +5,16 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Person {
+public class Vehicle {
 
   @Id private String id;
-
-  @ManyToOne(targetEntity = AppUser.class)
-  private AppUser creator;
 
   private String name;
 
   private String description;
+
+  @ManyToOne(targetEntity = AppUser.class)
+  private AppUser creator;
 
   /** @return id */
   @Id
@@ -24,25 +24,10 @@ public class Person {
 
   /**
    * @param id id to set
-   * @return Person
+   * @return Vehicle
    */
-  public <T extends Person> T setId(String id) {
+  public <T extends Vehicle> T setId(String id) {
     this.id = id;
-    return (T) this;
-  }
-
-  /** @return creator */
-  @ManyToOne(targetEntity = AppUser.class)
-  public AppUser getCreator() {
-    return this.creator;
-  }
-
-  /**
-   * @param creator creator to set
-   * @return Person
-   */
-  public <T extends Person> T setCreator(AppUser creator) {
-    this.creator = creator;
     return (T) this;
   }
 
@@ -53,9 +38,9 @@ public class Person {
 
   /**
    * @param name name to set
-   * @return Person
+   * @return Vehicle
    */
-  public <T extends Person> T setName(String name) {
+  public <T extends Vehicle> T setName(String name) {
     this.name = name;
     return (T) this;
   }
@@ -67,10 +52,25 @@ public class Person {
 
   /**
    * @param description description to set
-   * @return Person
+   * @return Vehicle
    */
-  public <T extends Person> T setDescription(String description) {
+  public <T extends Vehicle> T setDescription(String description) {
     this.description = description;
+    return (T) this;
+  }
+
+  /** @return creator */
+  @ManyToOne(targetEntity = AppUser.class)
+  public AppUser getCreator() {
+    return this.creator;
+  }
+
+  /**
+   * @param creator creator to set
+   * @return Vehicle
+   */
+  public <T extends Vehicle> T setCreator(AppUser creator) {
+    this.creator = creator;
     return (T) this;
   }
 }

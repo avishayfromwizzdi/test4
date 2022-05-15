@@ -24,15 +24,14 @@ public class CarOwnerController {
 
   @Autowired private CarOwnerService carOwnerService;
 
-  @PostMapping("createCarOwner")
-  @Operation(summary = "createCarOwner", description = "Creates CarOwner")
-  public CarOwner createCarOwner(
-      @Validated(Create.class) @RequestBody CarOwnerCreate carOwnerCreate,
-      Authentication authentication) {
+  @PostMapping("getAllCarOwners")
+  @Operation(summary = "getAllCarOwners", description = "lists CarOwners")
+  public PaginationResponse<CarOwner> getAllCarOwners(
+      @Valid @RequestBody CarOwnerFilter carOwnerFilter, Authentication authentication) {
 
     UserSecurityContext securityContext = (UserSecurityContext) authentication.getPrincipal();
 
-    return carOwnerService.createCarOwner(carOwnerCreate, securityContext);
+    return carOwnerService.getAllCarOwners(carOwnerFilter, securityContext);
   }
 
   @PutMapping("updateCarOwner")
@@ -46,13 +45,14 @@ public class CarOwnerController {
     return carOwnerService.updateCarOwner(carOwnerUpdate, securityContext);
   }
 
-  @PostMapping("getAllCarOwners")
-  @Operation(summary = "getAllCarOwners", description = "lists CarOwners")
-  public PaginationResponse<CarOwner> getAllCarOwners(
-      @Valid @RequestBody CarOwnerFilter carOwnerFilter, Authentication authentication) {
+  @PostMapping("createCarOwner")
+  @Operation(summary = "createCarOwner", description = "Creates CarOwner")
+  public CarOwner createCarOwner(
+      @Validated(Create.class) @RequestBody CarOwnerCreate carOwnerCreate,
+      Authentication authentication) {
 
     UserSecurityContext securityContext = (UserSecurityContext) authentication.getPrincipal();
 
-    return carOwnerService.getAllCarOwners(carOwnerFilter, securityContext);
+    return carOwnerService.createCarOwner(carOwnerCreate, securityContext);
   }
 }

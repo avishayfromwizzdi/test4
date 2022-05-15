@@ -24,15 +24,14 @@ public class PersonController {
 
   @Autowired private PersonService personService;
 
-  @PostMapping("createPerson")
-  @Operation(summary = "createPerson", description = "Creates Person")
-  public Person createPerson(
-      @Validated(Create.class) @RequestBody PersonCreate personCreate,
-      Authentication authentication) {
+  @PostMapping("getAllPersons")
+  @Operation(summary = "getAllPersons", description = "lists Persons")
+  public PaginationResponse<Person> getAllPersons(
+      @Valid @RequestBody PersonFilter personFilter, Authentication authentication) {
 
     UserSecurityContext securityContext = (UserSecurityContext) authentication.getPrincipal();
 
-    return personService.createPerson(personCreate, securityContext);
+    return personService.getAllPersons(personFilter, securityContext);
   }
 
   @PutMapping("updatePerson")
@@ -46,13 +45,14 @@ public class PersonController {
     return personService.updatePerson(personUpdate, securityContext);
   }
 
-  @PostMapping("getAllPersons")
-  @Operation(summary = "getAllPersons", description = "lists Persons")
-  public PaginationResponse<Person> getAllPersons(
-      @Valid @RequestBody PersonFilter personFilter, Authentication authentication) {
+  @PostMapping("createPerson")
+  @Operation(summary = "createPerson", description = "Creates Person")
+  public Person createPerson(
+      @Validated(Create.class) @RequestBody PersonCreate personCreate,
+      Authentication authentication) {
 
     UserSecurityContext securityContext = (UserSecurityContext) authentication.getPrincipal();
 
-    return personService.getAllPersons(personFilter, securityContext);
+    return personService.createPerson(personCreate, securityContext);
   }
 }

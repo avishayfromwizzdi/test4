@@ -6,9 +6,17 @@
             
                 <class>com.asaf.runtime.model.AppUser</class>
             
+                <class>com.asaf.runtime.model.Car</class>
+            
                 <class>com.asaf.runtime.model.CarOwner</class>
             
+                <class>com.asaf.runtime.model.CarOwnerToVehicle</class>
+            
+                <class>com.asaf.runtime.model.Motorcycle</class>
+            
                 <class>com.asaf.runtime.model.Person</class>
+            
+                <class>com.asaf.runtime.model.Vehicle</class>
             
 
         <exclude-unlisted-classes>false</exclude-unlisted-classes>

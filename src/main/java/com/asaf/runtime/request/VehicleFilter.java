@@ -3,8 +3,8 @@ package com.asaf.runtime.request;
 import java.util.Set;
 import javax.validation.constraints.Min;
 
-/** Object Used to List Person */
-public class PersonFilter {
+/** Object Used to List Vehicle */
+public class VehicleFilter {
 
   @Min(value = 0)
   private Integer currentPage;
@@ -25,9 +25,9 @@ public class PersonFilter {
 
   /**
    * @param currentPage currentPage to set
-   * @return PersonFilter
+   * @return VehicleFilter
    */
-  public <T extends PersonFilter> T setCurrentPage(Integer currentPage) {
+  public <T extends VehicleFilter> T setCurrentPage(Integer currentPage) {
     this.currentPage = currentPage;
     return (T) this;
   }
@@ -39,9 +39,9 @@ public class PersonFilter {
 
   /**
    * @param description description to set
-   * @return PersonFilter
+   * @return VehicleFilter
    */
-  public <T extends PersonFilter> T setDescription(Set<String> description) {
+  public <T extends VehicleFilter> T setDescription(Set<String> description) {
     this.description = description;
     return (T) this;
   }
@@ -53,9 +53,9 @@ public class PersonFilter {
 
   /**
    * @param id id to set
-   * @return PersonFilter
+   * @return VehicleFilter
    */
-  public <T extends PersonFilter> T setId(Set<String> id) {
+  public <T extends VehicleFilter> T setId(Set<String> id) {
     this.id = id;
     return (T) this;
   }
@@ -67,9 +67,9 @@ public class PersonFilter {
 
   /**
    * @param name name to set
-   * @return PersonFilter
+   * @return VehicleFilter
    */
-  public <T extends PersonFilter> T setName(Set<String> name) {
+  public <T extends VehicleFilter> T setName(Set<String> name) {
     this.name = name;
     return (T) this;
   }
@@ -81,9 +81,9 @@ public class PersonFilter {
 
   /**
    * @param pageSize pageSize to set
-   * @return PersonFilter
+   * @return VehicleFilter
    */
-  public <T extends PersonFilter> T setPageSize(Integer pageSize) {
+  public <T extends VehicleFilter> T setPageSize(Integer pageSize) {
     this.pageSize = pageSize;
     return (T) this;
   }

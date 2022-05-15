@@ -1,7 +1,7 @@
 package com.asaf.runtime.request;
 
-/** Object Used to Create Person */
-public class PersonCreate {
+/** Object Used to Create Vehicle */
+public class VehicleCreate {
 
   private String description;
 
@@ -14,9 +14,9 @@ public class PersonCreate {
 
   /**
    * @param description description to set
-   * @return PersonCreate
+   * @return VehicleCreate
    */
-  public <T extends PersonCreate> T setDescription(String description) {
+  public <T extends VehicleCreate> T setDescription(String description) {
     this.description = description;
     return (T) this;
   }
@@ -28,9 +28,9 @@ public class PersonCreate {
 
   /**
    * @param name name to set
-   * @return PersonCreate
+   * @return VehicleCreate
    */
-  public <T extends PersonCreate> T setName(String name) {
+  public <T extends VehicleCreate> T setName(String name) {
     this.name = name;
     return (T) this;
   }

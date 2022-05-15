@@ -24,15 +24,14 @@ public class AppUserController {
 
   @Autowired private AppUserService appUserService;
 
-  @PostMapping("createAppUser")
-  @Operation(summary = "createAppUser", description = "Creates AppUser")
-  public AppUser createAppUser(
-      @Validated(Create.class) @RequestBody AppUserCreate appUserCreate,
-      Authentication authentication) {
+  @PostMapping("getAllAppUsers")
+  @Operation(summary = "getAllAppUsers", description = "lists AppUsers")
+  public PaginationResponse<AppUser> getAllAppUsers(
+      @Valid @RequestBody AppUserFilter appUserFilter, Authentication authentication) {
 
     UserSecurityContext securityContext = (UserSecurityContext) authentication.getPrincipal();
 
-    return appUserService.createAppUser(appUserCreate, securityContext);
+    return appUserService.getAllAppUsers(appUserFilter, securityContext);
   }
 
   @PutMapping("updateAppUser")
@@ -46,13 +45,14 @@ public class AppUserController {
     return appUserService.updateAppUser(appUserUpdate, securityContext);
   }
 
-  @PostMapping("getAllAppUsers")
-  @Operation(summary = "getAllAppUsers", description = "lists AppUsers")
-  public PaginationResponse<AppUser> getAllAppUsers(
-      @Valid @RequestBody AppUserFilter appUserFilter, Authentication authentication) {
+  @PostMapping("createAppUser")
+  @Operation(summary = "createAppUser", description = "Creates AppUser")
+  public AppUser createAppUser(
+      @Validated(Create.class) @RequestBody AppUserCreate appUserCreate,
+      Authentication authentication) {
 
     UserSecurityContext securityContext = (UserSecurityContext) authentication.getPrincipal();
 
-    return appUserService.getAllAppUsers(appUserFilter, securityContext);
+    return appUserService.createAppUser(appUserCreate, securityContext);
   }
 }
