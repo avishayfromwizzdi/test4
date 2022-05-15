@@ -6,6 +6,10 @@
             
                 <class>com.asaf.runtime.model.AppUser</class>
             
+                <class>com.asaf.runtime.model.CarOwner</class>
+            
+                <class>com.asaf.runtime.model.Person</class>
+            
 
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
     </persistence-unit>
